@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja Online Avançada</title>
+    <style>
+       /* estilo geral*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        section {
+            background-color: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            transition: 0.3s;
+        }
+
+        section:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        input, button {
+            width: 95%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            margin-bottom: 8px;
+            padding: 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        li button {
+            padding: 6px 10px;
+            background-color: #2196F3;
+            font-size: 13px;
+        }
+
+        li button:hover {
+            background-color: #0b7dda;
+        }
+
+        .btn-finalizar {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background-color: #ff9800;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn-finalizar:hover {
+            background-color: #e68900;
+        }
+
+        #total {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Barra de busca */
+        #busca {
+            width: 95%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<header>🛍️ Loja Online Avançada</header>
+
+<main>
+    <!-- Cadastro de produtos -->
+    <section>
+        <h2>Cadastrar Produto</h2>
+        <input type="text" id="nome" placeholder="Nome do produto">
+        <input type="number" id="preco" placeholder="Preço do produto">
+        <input type="number" id="estoque" placeholder="Quantidade em estoque">
+        <button onclick="cadastrarProduto()">Cadastrar</button>
+    </section>
+
+    <!-- Lista de produtos -->
+    <section>
+        <h2>Produtos Disponíveis</h2>
+        <input type="text" id="busca" placeholder="Buscar produto..." onkeyup="filtrarProdutos()">
+        <ul id="lista-produtos"></ul>
+    </section>
+
+    <!-- Carrinho -->
+    <section>
+        <h2>Carrinho</h2>
+        <ul id="carrinho"></ul>
+        <p id="total">Total: R$ 0,00</p>
+        <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar Compra</button>
+    </section>
+</main>
+
+<!-- Importando o JavaScript externo -->
+<script src="script.js"></script>
+</body>
+</html>
