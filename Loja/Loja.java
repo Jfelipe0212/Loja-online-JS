@@ -1,4 +1,3 @@
-// Carrega produtos e carrinho do LocalStorage
 let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
@@ -15,7 +14,8 @@ function salvarDados() {
 // Função para cadastrar produto
 function cadastrarProduto() {
     const nome = document.getElementById("nome").value.trim();
-    const preco = parseFloat(document.getElementById("preco").value);
+    let preco = document.getElementById("preco").value.trim();
+    preco = parseFloat(preco.replace(",", ".")); // Normaliza vírgula
     const estoque = parseInt(document.getElementById("estoque").value);
 
     if (!nome || isNaN(preco) || isNaN(estoque) || preco <= 0 || estoque <= 0) {
@@ -44,7 +44,9 @@ function atualizarListaProdutos() {
                 <strong>${produto.nome}</strong><br>
                 R$ ${produto.preco.toFixed(2)} | Estoque: ${produto.estoque}
             </div>
-            <button onclick="adicionarAoCarrinho(${index})">Comprar</button>
+            <button onclick="adicionarAoCarrinho(${index})" ${produto.estoque === 0 ? "disabled" : ""}>
+                ${produto.estoque === 0 ? "Esgotado" : "Comprar"}
+            </button>
         `;
         lista.appendChild(li);
     });
@@ -56,19 +58,21 @@ function filtrarProdutos() {
     const lista = document.getElementById("lista-produtos");
     lista.innerHTML = "";
 
-    produtos
-        .filter(produto => produto.nome.toLowerCase().includes(busca))
-        .forEach((produto, index) => {
+    produtos.forEach((produto, index) => {
+        if (produto.nome.toLowerCase().includes(busca)) {
             const li = document.createElement("li");
             li.innerHTML = `
                 <div>
                     <strong>${produto.nome}</strong><br>
                     R$ ${produto.preco.toFixed(2)} | Estoque: ${produto.estoque}
                 </div>
-                <button onclick="adicionarAoCarrinho(${index})">Comprar</button>
+                <button onclick="adicionarAoCarrinho(${index})" ${produto.estoque === 0 ? "disabled" : ""}>
+                    ${produto.estoque === 0 ? "Esgotado" : "Comprar"}
+                </button>
             `;
             lista.appendChild(li);
-        });
+        }
+    });
 }
 
 // Adicionar produto ao carrinho
@@ -118,6 +122,7 @@ function atualizarCarrinho() {
 function removerDoCarrinho(index) {
     const item = carrinho[index];
     const produto = produtos.find(p => p.nome === item.nome);
+
     if (produto) {
         produto.estoque += item.quantidade;
     }
@@ -141,4 +146,6 @@ function finalizarCompra() {
     carrinho = [];
     salvarDados();
     atualizarCarrinho();
+    atualizarListaProdutos(); // Garante atualização dos botões
 }
+
